@@ -1,0 +1,51 @@
+:root{
+  --bg:#f5efe6;           /* parchmenty background */
+  --ink:#2e2a24;          /* text */
+  --wood:#e2c8a0;         /* shelf base */
+  --wood-edge:#b08a5a;    /* shelf front edge */
+  --card:#fff8d6;         /* staff note */
+  --muted:#6d655c;
+  --accent:#7a4b2b;       /* buttons */
+  --accent-2:#a8693b;
+}
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+body{ margin:0; font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color:var(--ink); background: var(--bg); }
+
+.topbar{ position:sticky; top:0; z-index: 10; backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, rgba(245,239,230,0.95), rgba(245,239,230,0.75));
+  border-bottom:1px solid #e1d7c8; padding:10px 12px; display:flex; gap:12px; align-items:center; justify-content:space-between;
+}
+.brand{ display:flex; gap:10px; align-items:center; }
+.logo{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background: var(--accent); color:#fff; font-weight:800; letter-spacing:.3px; }
+.title{ font-weight:800; letter-spacing:.3px; }
+.tagline{ font-size:12px; color:var(--muted); margin-top:2px; }
+.title-wrap{ display:flex; flex-direction:column; }
+
+.auth{ display:flex; align-items:center; gap:10px; }
+.signin{ display:flex; gap:8px; align-items:center; }
+.field{ padding:8px 10px; border:1px solid #cfbfa7; border-radius:8px; background:#fff; min-width: 200px; }
+.field:focus{ outline:2px solid #ead8bf; border-color:#bfa47f; }
+.btn{ padding:8px 12px; border-radius:8px; border:none; background:var(--accent); color:#fff; cursor:pointer; }
+.btn.secondary{ background: var(--accent-2); }
+.btn.ghost{ background: transparent; color: var(--accent); border:1px solid var(--accent); }
+.filelabel{ display:inline-flex; gap:8px; align-items:center; cursor:pointer; }
+.signed{ display:flex; gap:10px; align-items:center; }
+
+.controls{ max-width:1100px; margin: 12px auto; padding: 0 12px; display:flex; flex-wrap: wrap; gap:8px; align-items:center; }
+
+.add{ max-width:1100px; margin: 12px auto; background:#fff; border:1px solid #e1d8ca; border-radius:12px; padding:10px 12px; }
+.add summary{ cursor:pointer; font-weight:700; }
+.form-grid{ display:grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap:10px; margin-top:10px; }
+.form-grid textarea{ grid-column: span 6; resize: vertical; min-height:70px; }
+.stack{ display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
+
+.shelves{ max-width:1100px; margin: 14px auto 80px; padding: 0 12px; }
+.shelf{ position: relative; padding: 16px 12px 26px; margin: 14px 0 26px; border-radius: 14px; 
+  background: repeating-linear-gradient(90deg, rgba(191,150,102,0.14) 0, rgba(191,150,102,0.14) 6px, rgba(191,150,102,0.05) 6px, rgba(191,150,102,0.05) 12px),
+              linear-gradient(180deg, var(--wood), #d7b78a);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.4), inset 0 -3px 0 var(--wood-edge), 0 6px 16px rgba(0,0,0,.08);
+}
+.books{ display:flex; flex-wrap: wrap; align-items:flex-end; gap: 14px 12px; }
+
+.book{ width:124p
