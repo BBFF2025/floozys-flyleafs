@@ -1,21 +1,23 @@
-/* ==== Floozy’s Flyleafs — Black bookshop shelves theme ==== */
+/* ==== Floozy’s Flyleafs — Oak shelves + index cards ==== */
 :root{
-  --bg:#f3f1ec;         /* light, warm background */
-  --ink:#1e1d1b;        /* text */
+  --bg:#f4efe7;         /* light, warm background */
+  --ink:#2b241b;        /* text */
   --muted:#6e6a64;
 
-  /* Case + lighting */
-  --case:#0f1012;       /* black shelves */
-  --case-edge:#0a0b0d;
-  --case-glow:rgba(255,255,255,.08);
+  /* Oak wood */
+  --oak:#e3c69a;        /* base plank */
+  --oak2:#d7b485;       /* deeper tone */
+  --oak-grain:#b78652;  /* grain lines */
+  --oak-lip:#ad7a43;    /* front lip */
 
-  /* Buttons/accents */
+  /* UI accents */
   --accent:#7a4b2b;
   --accent-2:#a8693b;
 
-  /* Staff card */
-  --card:#fffaf0;
-  --card-line:#efe1c9;
+  /* Index card */
+  --card:#fffdf6;
+  --card-line:#efe3cc;  /* subtle horizontal lines */
+  --card-margin:#f2b2b2;/* red vertical margin */
 }
 
 *{ box-sizing: border-box; }
@@ -31,7 +33,7 @@ body{
 .topbar{
   position:sticky; top:0; z-index:30;
   backdrop-filter: blur(6px);
-  background: linear-gradient(180deg, rgba(243,241,236,.96), rgba(243,241,236,.85));
+  background: linear-gradient(180deg, rgba(244,239,231,.96), rgba(244,239,231,.85));
   border-bottom:1px solid #e7dccb;
   padding:10px 12px; display:flex; gap:12px; align-items:center; justify-content:space-between;
 }
@@ -39,10 +41,9 @@ body{
 .logo{
   width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
   background: var(--accent); color:#fff; font-weight:800; letter-spacing:.3px;
-  font-family: Literata, serif;
 }
-.title{ font: 800 18px Inter, system-ui; letter-spacing:.3px; }
-.tagline{ font: 12px Inter, system-ui; color:var(--muted); margin-top:2px; }
+.title{ font-weight:800; letter-spacing:.3px; }
+.tagline{ font-size:12px; color:var(--muted); margin-top:2px; }
 .title-wrap{ display:flex; flex-direction:column; }
 
 .auth{ display:flex; align-items:center; gap:10px; }
@@ -69,7 +70,7 @@ body{
   max-width:1200px; margin: 12px auto; background:#fff;
   border:1px solid #e1d8ca; border-radius:14px; padding:12px;
 }
-.add summary{ cursor:pointer; font-weight:700; font-family: Inter; }
+.add summary{ cursor:pointer; font-weight:700; }
 .form-grid{
   display:grid; grid-template-columns: repeat(6, minmax(160px, 1fr));
   gap:12px; margin-top:10px;
@@ -77,32 +78,32 @@ body{
 .form-grid textarea{ grid-column: span 6; resize: vertical; min-height:84px; }
 .stack{ display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
 
-/* ---- Black shelves (cases) ---- */
+/* ---- Oak shelves ---- */
 .shelves{ max-width:1200px; margin: 16px auto 100px; padding: 0 12px; }
 .shelf{
-  position: relative; padding:20px 16px 40px; margin: 18px 0 36px; border-radius: 14px;
-  background: linear-gradient(180deg, #15171a, #0e0f12);
-  border:1px solid var(--case-edge);
-  box-shadow: inset 0 1px 0 #232428, inset 0 -2px 0 #08090b, 0 10px 24px rgba(0,0,0,.35);
-}
-.shelf::before{ /* lighting along the top inside the case */
-  content:""; position:absolute; left:12px; right:12px; top:10px; height:22px; border-radius:10px;
+  position: relative; padding:20px 16px 40px; margin: 18px 0 36px; border-radius: 16px;
   background:
-    radial-gradient(120% 90% at 50% 10%, var(--case-glow), transparent 60%);
-  pointer-events:none;
+    /* fine vertical grain */
+    repeating-linear-gradient(90deg,
+      rgba(183,134,82,.14) 0, rgba(183,134,82,.14) 6px,
+      rgba(183,134,82,.06) 6px, rgba(183,134,82,.06) 12px),
+    /* plank tone */
+    linear-gradient(180deg, var(--oak), var(--oak2));
+  border:1px solid #bf905d;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.5),
+    inset 0 -3px 0 var(--oak-lip),
+    0 10px 22px rgba(0,0,0,.12);
 }
-.shelf::after{ /* front lip shadow */
-  content:""; position:absolute; left:10px; right:10px; bottom:10px; height:10px; border-radius:10px;
-  background: linear-gradient(180deg, rgba(0,0,0,.7), rgba(0,0,0,.95));
-  box-shadow: 0 8px 18px rgba(0,0,0,.45);
+.shelf::after{ /* front lip */
+  content:""; position:absolute; left:12px; right:12px; bottom:10px; height:12px; border-radius:12px;
+  background: linear-gradient(180deg, var(--oak-lip), #8f5f32);
+  box-shadow: 0 10px 18px rgba(0,0,0,.18);
 }
-
 .shelf-label{
   position:absolute; top:-12px; left:16px;
-  background:#2a2d31; color:#e7e8ea; border:1px solid #0d0e10;
-  padding:3px 10px; border-radius:16px; font-size:12px; letter-spacing:.2px;
-  box-shadow: 0 2px 4px rgba(0,0,0,.25), inset 0 -1px 0 rgba(255,255,255,.07);
-  font-family: Inter, system-ui;
+  background:#7f5a32; color:#fff; padding:3px 10px; border-radius:16px; font-size:12px; letter-spacing:.2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.18);
 }
 
 .books{ display:flex; flex-wrap: wrap; align-items:flex-end; gap: 18px 16px; }
@@ -113,25 +114,26 @@ body{
 .cover, .spine{
   position:relative; cursor:pointer; overflow:hidden; background:#ddd;
   transition: transform .12s ease;
-  box-shadow: 0 10px 20px rgba(0,0,0,.35);
+  box-shadow: 0 10px 20px rgba(0,0,0,.24);
 }
 .cover:hover, .spine:hover{ transform: translateY(-2px); }
 
 .cover{ width:160px; height:240px; border-radius:12px; }
 .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
 
+/* spine uses cover art if available; otherwise color + vertical text */
 .spine{
   width:44px; height:240px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  background-size: cover; background-position: center; background-repeat:no-repeat;
 }
-.spine-img{ /* use cover image as spine texture */
-  background-size: cover;
-  background-position: center;
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 10px 18px rgba(0,0,0,.35);
+.spine.spine-img::after{ /* subtle edge shading to feel like a spine */
+  content:\"\"; position:absolute; inset:0;
+  background: linear-gradient(90deg, rgba(255,255,255,.15), rgba(0,0,0,.18));
+  pointer-events:none;
 }
 .spine .label{
   writing-mode: vertical-rl; transform: rotate(180deg);
-  color:#fff; font: 800 12px Inter, system-ui; letter-spacing:.2px; padding:6px 4px; text-align:center;
+  color:#fff; font-weight:800; font-size:12px; letter-spacing:.2px; padding:6px 4px; text-align:center;
   text-shadow: 0 1px 0 rgba(0,0,0,.25);
 }
 .spine .author{ font-size:10px; opacity:.95; font-weight:600; }
@@ -143,12 +145,18 @@ body{
 }
 .cover:hover .flip-hint, .spine:hover .flip-hint{ opacity:1; }
 
-/* ---- Staff note card ---- */
+/* ---- Index card (staff note) ---- */
 .note{
   margin-top: 10px; width: 100%; max-width: 170px;
-  background: repeating-linear-gradient(#fffaf0, #fffaf0 22px, var(--card-line) 23px);
+  background:
+    /* red vertical margin line at ~50px */
+    linear-gradient(90deg, var(--card-margin) 52px, transparent 52px),
+    /* blue-ish horizontal rule lines */
+    repeating-linear-gradient(#fffdf6, #fffdf6 22px, var(--card-line) 23px);
   border-left: 4px solid #f4ce54; padding:10px 12px; border-radius:10px;
-  font: 12px Inter, system-ui; line-height:1.35; box-shadow: 0 3px 8px rgba(0,0,0,.12);
+  font-family: "Patrick Hand", "Comic Sans MS", cursive;
+  font-size:14px; line-height:1.35;
+  box-shadow: 0 3px 8px rgba(0,0,0,.12);
   position: relative;
 }
 .tools{ position:absolute; top:6px; right:8px; display:flex; gap:6px; }
@@ -157,7 +165,7 @@ body{
 .muted{ color: var(--muted); }
 
 /* ---- Footer ---- */
-.foot{ max-width:1200px; margin: 10px auto 70px; padding: 0 12px; color: var(--muted); font: 13px Inter, system-ui; }
+.foot{ max-width:1200px; margin: 10px auto 70px; padding: 0 12px; color: var(--muted); font-size: 13px; }
 .hr{ height:1px; background:#e1d7c8; margin:14px 0; }
 
 /* ---- Mobile tweaks ---- */
