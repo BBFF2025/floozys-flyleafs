@@ -1,3 +1,4 @@
+console.log("FF app.js loaded");
 // /js/app.js
 import { supabase, signIn, signOut, onAuthChange, ensureProfile, getUser } from './supabase.js';
 import { initData, currentMode, loadBooks, addBook, updateBook, deleteBook, syncLocalToCloud, exportJSON, importJSON, randomId } from './data.js';
