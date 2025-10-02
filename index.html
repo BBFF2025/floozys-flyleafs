@@ -1,65 +1,68 @@
--- 0) Extension for gen_random_uuid()
-create extension if not exists "pgcrypto";
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Floozy’s Flyleafs</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">FF</span>
+      <div class="title-wrap">
+        <div class="title">Floozy’s Flyleafs</div>
+        <div class="tagline">Shelves you can share</div>
+      </div>
+    </div>
 
--- 1) TABLES (in the public schema)
-create table if not exists public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
-  display_name text,
-  public_shelf boolean default false,
-  created_at timestamptz default now()
-);
+    <div class="auth">
+      <form id="signinForm" class="signin">
+        <input id="email" class="field" type="email" placeholder="you@example.com" aria-label="Email" required />
+        <button class="btn">Send magic link</button>
+      </form>
+      <div id="signedIn" class="signed" hidden>
+        <span id="who"></span>
+        <button id="signOut" class="btn secondary">Sign out</button>
+      </div>
+    </div>
+  </header>
 
-create table if not exists public.books (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references auth.users(id) on delete cascade,
-  title text not null,
-  author text not null,
-  type text check (type in ('fiction','nonfiction')) default 'fiction',
-  rating int check (rating between 1 and 5),
-  date_read date,
-  cover text,
-  note text,
-  facing text check (facing in ('spine','cover')) default 'spine',
-  created_at timestamptz default now()
-);
+  <section class="controls">
+    <input id="search" class="field" placeholder="Search title/author…" />
+    <select id="filterType" class="field" title="Type">
+      <option value="all">All types</option>
+      <option value="fiction">Fiction</option>
+      <option value="nonfiction">Nonfiction</option>
+    </select>
+    <select id="sortBy" class="field" title="Sort by">
+      <option value="author">Author A→Z</option>
+      <option value="title">Title A→Z</option>
+      <option value="dateRead">Date read (new→old)</option>
+      <option value="rating">Rating (high→low)</option>
+    </select>
+    <button id="exportBtn" class="btn ghost" title="Download a backup JSON">Export</button>
+    <label class="btn ghost filelabel">
+      Import <input id="importInput" type="file" accept="application/json" hidden />
+    </label>
+    <button id="loadDemo" class="btn secondary" title="Load a small demo set">Load demo</button>
+  </section>
 
-create index if not exists books_user_id_idx on public.books(user_id);
-
--- 2) Enable Row-Level Security (RLS)
-alter table public.profiles enable row level security;
-alter table public.books enable row level security;
-
--- 3) Clean up any old policies (safe if they don't exist)
-drop policy if exists "profile select own" on public.profiles;
-drop policy if exists "profile insert self" on public.profiles;
-drop policy if exists "profile update self" on public.profiles;
-
-drop policy if exists "books select own" on public.books;
-drop policy if exists "books insert own" on public.books;
-drop policy if exists "books update own" on public.books;
-drop policy if exists "books delete own" on public.books;
-
--- 4) PROFILES policies: users can read/insert/update only their own row
-create policy "profile select own" on public.profiles
-  for select using (auth.uid() = id);
-
-create policy "profile insert self" on public.profiles
-  for insert with check (auth.uid() = id);
-
-create policy "profile update self" on public.profiles
-  for update using (auth.uid() = id)
-  with check (auth.uid() = id);
-
--- 5) BOOKS policies: users can read/write only their own rows
-create policy "books select own" on public.books
-  for select using (auth.uid() = user_id);
-
-create policy "books insert own" on public.books
-  for insert with check (auth.uid() = user_id);
-
-create policy "books update own" on public.books
-  for update using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
-
-create policy "books delete own" on public.books
-  for delete using (auth.uid() = user_id);
+  <details class="add">
+    <summary>➕ Add a book</summary>
+    <form id="addForm">
+      <div class="form-grid">
+        <div>
+          <label class="tiny muted">Title</label>
+          <input required name="title" class="field" placeholder="The Book Title" />
+        </div>
+        <div>
+          <label class="tiny muted">Author</label>
+          <input required name="author" class="field" placeholder="Author Name" />
+        </div>
+        <div>
+          <label class="tiny muted">Type</label>
+          <select name="type" class="field">
+            <option value="fiction">Fiction</option>
+            <option value="nonfiction">Nonfiction</option>
+          </selec
