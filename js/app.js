@@ -249,4 +249,11 @@ function hashToColor(str){ let h=0; for(let i=0;i<str.length;i++){ h=(h<<5)-h+st
 
 function demoBooks(){
   return [
-    { id:'b_1', title:'Pride and Prejudice', author:'Jane Austen', type:'fiction', rating:5, dateRead:'2023-06-12', cov_
+    { id:'b_1', title:'Pride and Prejudice', author:'Jane Austen', type:'fiction', rating:5, dateRead:'2023-06-12', cover:'https://covers.openlibrary.org/b/id/8091012-L.jpg', note:'Witty, romantic, and sharper than I remembered.', facing:'cover' },
+    { id:'b_2', title:'Thinking, Fast and Slow', author:'Daniel Kahneman', type:'nonfiction', rating:4, dateRead:'2022-11-02', cover:'https://covers.openlibrary.org/b/id/6917225-L.jpg', note:'Changed how I interpret my own brain glitches.', facing:'cover' },
+    { id:'b_3', title:'The Goldfinch', author:'Donna Tartt', type:'fiction', rating:5, dateRead:'2021-03-20', cover:'', note:'Atmosphere for days. Hangs in your mind like museum air.', facing:'spine' },
+    { id:'b_4', title:'Atomic Habits', author:'James Clear', type:'nonfiction', rating:4, dateRead:'2020-09-13', cover:'https://covers.openlibrary.org/b/id/9250116-L.jpg', note:'Tiny steps → compounding results. Actually useful.', facing:'cover' },
+    { id:'b_5', title:'Circe', author:'Madeline Miller', type:'fiction', rating:5, dateRead:'2019-07-08', cover:'', note:'Fierce, magical, woman-forward retelling that sings.', facing:'spine' },
+    { id:'b_6', title:'Educated', author:'Tara Westover', type:'nonfiction', rating:5, dateRead:'2018-01-28', cover:'https://covers.openlibrary.org/b/id/8406781-L.jpg', note:'Jaw-dropping resilience; could not put it down.', facing:'cover' },
+  ];
+}
