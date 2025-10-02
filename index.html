@@ -62,7 +62,41 @@
         </div>
         <div>
           <label class="tiny muted">Type</label>
-          <select name="type" class="field">
-            <option value="fiction">Fiction</option>
-            <option value="nonfiction">Nonfiction</option>
-<script type="module" src="js/app.js?v=1"></script>
+<select name="type" class="field">
+  <option value="fiction">Fiction</option>
+  <option value="nonfiction">Nonfiction</option>
+</select>
+        </div>
+        <div>
+          <label class="tiny muted">Rating (1–5)</label>
+          <input name="rating" class="field" type="number" min="1" max="5" value="5" />
+        </div>
+        <div>
+          <label class="tiny muted">Date read</label>
+          <input name="dateRead" class="field" type="date" />
+        </div>
+        <div>
+          <label class="tiny muted">Cover URL (optional)</label>
+          <input name="cover" class="field" placeholder="https://…" />
+        </div>
+        <textarea name="note" class="field" placeholder="What did you love about it? (optional)"></textarea>
+      </div> <!-- .form-grid -->
+      <div class="stack" style="margin-top:10px;">
+        <button class="btn">Add</button>
+        <div class="tiny muted">Tip: Click a book to flip between spine and cover. Click ✏️ to edit the note; 🗑️ to delete.</div>
+      </div>
+    </form>
+  </details>
+
+  <main id="shelves" class="shelves"></main>
+
+  <footer class="foot">
+    <div class="hr"></div>
+    <p>
+      Data is private by default. If you’re signed out, changes save only to your device. Sign in (magic link) to sync between devices. Export a backup JSON anytime.
+    </p>
+  </footer>
+
+  <script type="module" src="js/app.js?v=1"></script>
+</body>
+</html>
