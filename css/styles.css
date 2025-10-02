@@ -48,4 +48,27 @@ body{ margin:0; font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, "He
 }
 .books{ display:flex; flex-wrap: wrap; align-items:flex-end; gap: 14px 12px; }
 
-.book{ width:124p
+.book{ width:124px; display:flex; flex-direction:column; align-items:center; user-select:none; }
+.cover, .spine{ width:120px; height:180px; border-radius:10px; box-shadow: 0 6px 12px rgba(0,0,0,.18); position:relative; cursor:pointer; overflow:hidden; background:#ddd; }
+.cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+.placeholder{ width:100%; height:100%; display:grid; place-items:center; font-weight:700; font-size:14px; padding:12px; text-align:center; color:#fff; }
+.spine{ width:36px; height:180px; border-radius:6px; display:flex; align-items:center; justify-content:center; }
+.spine .label{ writing-mode: vertical-rl; transform: rotate(180deg); color:#fff; font-weight:700; font-size:12px; letter-spacing:.2px; padding:6px 4px; text-align:center; text-shadow: 0 1px 0 rgba(0,0,0,.2); }
+.spine .author{ font-size:10px; opacity:.9; font-weight:500; }
+.flip-hint{ position:absolute; inset:auto 6px 6px auto; background: rgba(0,0,0,.55); color:#fff; font-size:10px; padding:3px 6px; border-radius: 6px; opacity:0; transition: .2s; }
+.cover:hover .flip-hint, .spine:hover .flip-hint{ opacity:1; }
+
+.note{ margin-top: 8px; width: 100%; max-width: 140px; background: var(--card); border-left: 4px solid #f4ce54; padding:8px 10px; border-radius:8px; font-size:12px; line-height:1.3; box-shadow: 0 2px 6px rgba(0,0,0,.08); position: relative; }
+.tools{ position:absolute; top:4px; right:6px; display:flex; gap:4px; }
+.toolbtn{ border:none; background:transparent; padding:2px; cursor:pointer; color:#7a6b56; }
+.tiny{ font-size:11px; }
+.muted{ color: var(--muted); }
+.shelf-label{ position:absolute; top:-10px; left:12px; background:#8b5e34; color:#fff; padding:2px 8px; border-radius:14px; font-size:12px; box-shadow: 0 2px 4px rgba(0,0,0,.15); }
+
+.foot{ max-width:1100px; margin: 10px auto 60px; padding: 0 12px; color: var(--muted); font-size: 13px; }
+.hr{ height:1px; background:#e1d7c8; margin:14px 0; }
+
+@media (max-width: 720px){
+  .field{ min-width: 0; }
+  .form-grid{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+}
