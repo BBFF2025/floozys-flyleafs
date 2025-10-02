@@ -123,8 +123,8 @@ export async function importJSON(text){
     localStorage.setItem(LOCAL_KEY, JSON.stringify(merged));
     return merged.length;
   } else {
-    const { data: user } = await supabase.auth.getUser();
-    const uid = user?.user?.id;
+    const { data: { user } } = await supabase.auth.getUser();
+const uid = user?.id;
     const rows = books.map(b => ({
       user_id: uid,
       title: b.title, author: b.author, type: b.type, rating: b.rating,
