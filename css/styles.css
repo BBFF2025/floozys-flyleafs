@@ -59,29 +59,27 @@ body{
 /* ---- Shelf ---- */
 .shelves{ max-width:1200px; margin:16px auto 120px; padding:0 12px }
 .shelf{
-  position:relative; overflow:visible; /* allow cards to hang below */
-  padding:20px 16px 72px; margin:18px 0 36px; border-radius:16px;
+  position:relative; overflow:visible;
+  padding:20px 16px 110px;   /* ↑ more bottom room */
+  margin:18px 0 36px; border-radius:16px;
   background:linear-gradient(180deg, var(--case-back), #ede7dc);
   border:1px solid #e3d6c3;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 0 rgba(0,0,0,.05), 0 10px 22px rgba(0,0,0,.08);
 }
-.shelf::after{ /* solid oak front plank */
-  content:""; position:absolute; left:12px; right:12px; bottom:28px; height:18px; border-radius:12px;
+.shelf::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:64px; /* higher plank */
+  height:18px; border-radius:12px;
   background:linear-gradient(180deg, var(--oak-lip), #6f4727);
   box-shadow:0 12px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.15);
-  z-index:1;
+  z-index:2; /* in front of books, above backboard */
 }
-.shelf-label{
-  position:absolute; top:-12px; left:16px; z-index:2;
-  background:#7f5a32; color:#fff; padding:3px 10px; border-radius:16px; font-size:12px; letter-spacing:.2px;
-  box-shadow:0 2px 4px rgba(0,0,0,.18);
-}
+
 
 /* books row: NO GAP so spines/covers touch */
-.books{ position:relative; z-index:2; display:flex; flex-wrap:wrap; align-items:flex-end; gap:0 }
+.books{   position:relative; z-index:1;   display:flex; flex-wrap:wrap; align-items:flex-end;   gap:0 !important; column-gap:0 !important; row-gap:36px;   justify-content:flex-start; } .book{ flex:0 0 auto; width:auto; }s{   position:relative; z-index:1;   display:flex; flex-wrap:wrap; align-items:flex-end;   gap:0 !important; column-gap:0 !important; row-gap:36px;   justify-content:flex-start; } .books{   position:relative; z-index:1;   display:flex; flex-wrap:wrap; align-items:flex-end;   gap:0 !important; column-gap:0 !important; row-gap:36px;   justify-content:flex-start; } .book{ flex:0 0 auto; width:auto; }{ flex:0 0 auto; width:auto; }{ position:relative; z-index:2; display:flex; flex-wrap:wrap; align-items:flex-end; gap:0 }
 
 /* ---- Book objects ---- */
-.book{ width:auto; display:flex; flex-direction:column; align-items:center; user-select:none }
+.books{   position:relative; z-index:1;   display:flex; flex-wrap:wrap; align-items:flex-end;   gap:0 !important; column-gap:0 !important; row-gap:36px;   justify-content:flex-start; } .book{ flex:0 0 auto; width:auto; }{ width:auto; display:flex; flex-direction:column; align-items:center; user-select:none }
 .cover,.spine{
   position:relative; cursor:pointer; overflow:hidden; background:#ddd; transition:transform .12s ease;
   box-shadow:0 10px 20px rgba(0,0,0,.22)
@@ -117,20 +115,23 @@ body{
 .note{
   margin-top:10px;
   width:100%;
-  max-width:calc(var(--cover-w)*0.75);  /* 3/4 of cover width */
+  max-width:calc(var(--cover-w)*0.75);
   background:repeating-linear-gradient(#fffdf6, #fffdf6 19px, var(--card-line) 20px);
   border:1px solid #e8e0cf; border-radius:10px;
-  padding:8px 12px 28px; /* extra bottom so meta fits */
+  padding:8px 12px 28px;
   font-family:"Patrick Hand","Comic Sans MS",cursive;
-  font-size:12.5px; line-height:1.32; transform:skew(-4deg);
+  font-size:12px; line-height:1.28; transform:skew(-6deg);
   box-shadow:0 3px 8px rgba(0,0,0,.12);
-  position:relative; z-index:2;
-  translate:0 18px; /* hangs below the plank a bit */
+  position:relative; z-index:1;
+  translate:0 46px;  /* hangs below the plank */
 }
-.note.empty{ color:#b9b0a4; font-style:italic }
-.note .meta{ position:absolute; left:10px; bottom:6px; font-size:12px; transform:skew(4deg) } /* unskew text */
-.note .meta .sep{ padding:0 6px }
-.note .text{ transform:skew(4deg) } /* unskew text */
+.note .text{ transform:skew(6deg) }     /* unskew text */
+.note .meta{
+  position:absolute; left:10px; bottom:6px;
+  font-size:12px; color:#333;
+  transform:skew(6deg);                  /* unskew meta */
+}
+
 
 /* Footer */
 .foot{ max-width:1200px; margin:10px auto 80px; padding:0 12px; color:var(--muted); font-size:13px }
@@ -142,3 +143,4 @@ body{
   .field{ min-width:0 }
   .form-grid{ grid-template-columns:repeat(2, minmax(140px,1fr)) }
 }
+.cover, .spine { margin-right:-2px; }  /* edges touch */
