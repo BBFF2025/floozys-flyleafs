@@ -184,6 +184,10 @@ function render(){
 
 function renderBook(b, j=0){
   const wrap = document.createElement('div'); wrap.className='book'; wrap.dataset.id=b.id;
+wrap.addEventListener('click', (e)=>{
+  if (e.target.closest('.note')) return; // editing the card, don’t flip
+  flip(b.id);
+});
 
   if(b.facing==='cover' && (b.cover||'').trim()!=='' ){
     // COVER MODE
@@ -200,7 +204,9 @@ function renderBook(b, j=0){
     note.className = 'note' + ((b.note||'').trim() ? '' : ' empty');
     const meta = metaLine(b);
     const textHTML = escapeHTML((b.note||'').trim() || 'add a note');
-    note.innerHTML = `<div class="text">${textHTML}</div>${ meta ? `<div class="meta">${meta}</div>` : '' }`;
+const meta = metaLine(b);                     // ★★★ | fiction | Oct-21
+const textHTML = escapeHTML((b.note||'').trim() || 'add a note');
+note.innerHTML = `<div class="text">${textHTML}</div>${ meta ? `<div class="meta">${meta}</div>` : '' }`;
     note.title = 'Click to edit note';
     note.addEventListener('click', async ()=>{
       const next = prompt(`Note for "${b.title}"`, (b.note||''));
@@ -285,4 +291,20 @@ function demoBooks(){
     { id:'b_5', title:'Circe', author:'Madeline Miller', type:'fiction', rating:5, dateRead:'2019-07-01', cover:'', note:'', facing:'spine', datePrecision:'month' },
     { id:'b_6', title:'Educated', author:'Tara Westover', type:'nonfiction', rating:5, dateRead:'2018-01-28', cover:'https://covers.openlibrary.org/b/id/8406781-L.jpg', note:'Jaw-dropping resilience; could not put it down.', facing:'cover', datePrecision:'day' },
   ];
+}function starsOnly(n){ const v=Math.max(0,Math.min(5,n||0)); return v ? '★'.repeat(v) : ''; }
+function formatMmmYY(dateStr, precision='day'){
+  if(!dateStr) return '';
+  const dt = new Date(dateStr);
+  if(precision==='year')  return String(dt.getFullYear());
+  const m = dt.toLocaleString('en-US',{month:'short'}); // Jan, Feb, …
+  const y = String(dt.getFullYear()).slice(-2);         // 21
+  return `${m}-${y}`;
 }
+function metaLine(b){
+  const parts=[];
+  const s=starsOnly(b.rating); if(s) parts.push(s);
+  if(b.type) parts.push(b.type);
+  const d=formatMmmYY(b.dateRead, b.datePrecision); if(d) parts.push(d);
+  return parts.join(' | ');
+}
+
