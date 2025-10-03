@@ -163,57 +163,74 @@ function render(){
   if(sortBy==='rating') list.reverse();
 
   shelvesEl.innerHTML = '';
-  const perShelf = 8;
+const perShelf = window.innerWidth < 720 ? 8 : 16;
   for(let i=0;i<list.length;i+=perShelf){
     const shelfBooks = list.slice(i, i+perShelf);
     const shelf = document.createElement('section'); shelf.className='shelf';
     const label = document.createElement('div'); label.className='shelf-label'; label.textContent=`Shelf ${Math.floor(i/perShelf)+1}`; shelf.appendChild(label);
     const row = document.createElement('div'); row.className='books'; shelf.appendChild(row);
-    shelfBooks.forEach(b => row.appendChild(renderBook(b)));
+    shelfBooks.forEach((b, j) => row.appendChild(renderBook(b, j)));
     shelvesEl.appendChild(shelf);
   }
   if(list.length===0){ shelvesEl.innerHTML = '<p class="muted" style="padding:12px">No books yet. Add your first one above! 💫</p>'; }
 }
 
-function renderBook(b){
+function renderBook(b, j=0){
   const wrap = document.createElement('div'); wrap.className='book'; wrap.dataset.id=b.id;
 
   if(b.facing==='cover' && (b.cover||'').trim()!=='' ){
     const cover = document.createElement('div'); cover.className='cover'; cover.title='Click to flip'; cover.addEventListener('click', ()=>flip(b.id));
-    if(b.cover){
-      const img = document.createElement('img'); img.src=b.cover; img.alt=b.title; img.onerror = ()=>{ cover.innerHTML=''; cover.appendChild(placeholder()); };
-      cover.appendChild(img);
-    } else { cover.appendChild(placeholder()); }
+    const img = document.createElement('img'); img.src=b.cover; img.alt=b.title; img.onerror = ()=>{ cover.innerHTML=''; cover.appendChild(placeholder()); };
+    cover.appendChild(img);
     const hint = document.createElement('div'); hint.className='flip-hint'; hint.textContent='flip'; cover.appendChild(hint);
     wrap.appendChild(cover);
+
+    // index card (only when face-out)
+    const note = document.createElement('div');
+    note.className = 'note' + ((b.note||'').trim() ? '' : ' empty');
+    note.textContent = (b.note||'').trim() ? b.note : 'add a note';
+    // click card to edit (no icons)
+    note.addEventListener('click', async ()=>{
+      const next = prompt(`Note for "${b.title}"`, (b.note||''));
+      if(next===null) return;
+      await updateBook(b.id, { note: next.trim() });
+      await refreshBooks();
+    });
+    wrap.appendChild(note);
+
   } else {
-    const spine = document.createElement('div'); spine.className='spine'; spine.title='Click to flip'; spine.style.background = hashToColor(b.title + b.author);
-    const label = document.createElement('div'); label.className='label';
+    // SPINE MODE
+    const spine = document.createElement('div');
+    spine.className = 'spine';
+    spine.title = 'Click to flip';
+
+    // cover art texture if available
+    if ((b.cover || '').trim() !== '') {
+      spine.classList.add('spine-img');
+      spine.style.backgroundImage = `url(${b.cover})`;
+    } else {
+      spine.style.background = hashToColor(b.title + b.author);
+    }
+
+    // varied fonts for readability
+    const fontClass = 'font-f' + (Math.abs(hash(b.title + b.author)) % 5 + 1);
+    const label = document.createElement('div'); label.className='label ' + fontClass;
     label.innerHTML = `<div>${escapeHTML(b.title)}</div><div class="author">${escapeHTML(b.author)}</div>`;
+    spine.appendChild(label);
+
+    // subtle lean left/right
+    spine.classList.add(j % 2 === 0 ? 'lean-left' : 'lean-right');
+
     const hint = document.createElement('div'); hint.className='flip-hint'; hint.textContent='flip';
-    spine.appendChild(label); spine.appendChild(hint);
+    spine.appendChild(hint);
+
     spine.addEventListener('click', ()=>flip(b.id));
     wrap.appendChild(spine);
   }
 
-  const note = document.createElement('div'); note.className='note';
-  const starsEl = document.createElement('div'); starsEl.className='tiny'; starsEl.textContent = `${stars(b.rating||0)} · ${b.type||''}`;
-  const text = document.createElement('div'); text.textContent = (b.note||'').trim() ? b.note : '— add a note';
-  const tools = document.createElement('div'); tools.className='tools';
-
-  const editBtn = document.createElement('button'); editBtn.className='toolbtn'; editBtn.title='Edit note'; editBtn.textContent='✏️'; editBtn.addEventListener('click', ()=>editNote(b.id));
-  const delBtn = document.createElement('button'); delBtn.className='toolbtn'; delBtn.title='Delete book'; delBtn.textContent='🗑️'; delBtn.addEventListener('click', ()=>del(b.id));
-
-  tools.appendChild(editBtn); tools.appendChild(delBtn);
-  note.appendChild(tools); note.appendChild(starsEl); note.appendChild(text);
-
-  const meta = document.createElement('div'); meta.className='tiny muted';
-  const when = b.dateRead ? new Date(b.dateRead).toLocaleDateString() : '—';
-  meta.textContent = `${b.author} • Read: ${when}`;
-
-  wrap.appendChild(note); wrap.appendChild(meta);
   return wrap;
 }
+
 
 function placeholder(){
   const ph = document.createElement('div'); ph.className='placeholder';
@@ -246,6 +263,7 @@ function normalize(str){ return (str||'').toLowerCase(); }
 function stars(n){ return '★'.repeat(n||0) + '☆'.repeat(Math.max(0,5-(n||0))); }
 function escapeHTML(str=''){ return str.replace(/[&<>\"]/g, s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[s])); }
 function hashToColor(str){ let h=0; for(let i=0;i<str.length;i++){ h=(h<<5)-h+str.charCodeAt(i); h|=0; } const hue=Math.abs(h)%360; return `hsl(${hue} 55% 45%)`; }
+function hash(str){ let h=0; for(let i=0;i<str.length;i++){ h=(h<<5)-h+str.charCodeAt(i); h|=0; } return h; }
 
 function demoBooks(){
   return [
