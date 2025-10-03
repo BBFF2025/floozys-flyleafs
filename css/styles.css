@@ -7,13 +7,12 @@
   /* Case: light backboard + dark oak shelf lip */
   --case-back:#f2eee7;      /* light gray-beige behind books */
   --oak-lip:#8b5e34;        /* dark oak board at bottom */
-  --oak-edge:#6c4525;
 
-  /* Cover size (easy to tweak) */
+  /* Cover size */
   --cover-w:160px;
   --cover-h:240px;
 
-  /* Buttons */
+  /* UI accents */
   --accent:#7a4b2b;
   --accent-2:#a8693b;
 
@@ -31,7 +30,7 @@ body{
   background: var(--bg);
 }
 
-/* Header + controls unchanged-ish */
+/* Header + controls (unchanged basics) */
 .topbar{
   position:sticky; top:0; z-index:30;
   backdrop-filter: blur(6px);
@@ -122,8 +121,7 @@ body{
   margin-top: 10px;
   width: 100%;
   max-width: calc(var(--cover-w) * 0.75);  /* 3/4 of cover width */
-  background:
-    repeating-linear-gradient(#fffdf6, #fffdf6 22px, var(--card-line) 23px); /* horizontal lines only */
+  background: repeating-linear-gradient(#fffdf6, #fffdf6 22px, var(--card-line) 23px);
   border: 1px solid #e8e0cf;
   border-radius:10px;
   padding:10px 12px;
